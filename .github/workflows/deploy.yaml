@@ -1,15 +1,19 @@
-name: Deploy to heroku
-on:
+name: Deploy to Heroku
+on: 
   push:
     tags:
-    - 'v1.0.0'
+    - 'v*'
+    - '!v*-alpha'
 jobs:
   deploy_to_heroku:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+    - name: Checkout src 
+      uses: actions/checkout@v2
+    - name: Deploy
+      uses: akhileshns/heroku-deploy@v3.12.12 
       with:
-        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-        heroku_app_name: "arian-bear-april12" #Must be unique in Heroku
-        heroku_email: ${{ secrets.HEROKU_EMAIL }}
+        heroku_api_key: ${{ secrets.heroku_api_key }}
+        heroku_app_name: arian-bear-april12
+        heroku_email: ${{ secrets.heroku_email }}
+        branch: ${{ github.ref_name }}
